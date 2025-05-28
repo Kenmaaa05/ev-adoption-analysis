@@ -2,6 +2,8 @@
 
 Electric vehicles (EVs) are transforming the transportation landscape, but access to them is not evenly distributed. In this project, I explored the real-world EV registration data from Washington State to understand how policy, infrastructure, and technology shape EV adoption.
 
+[View it here!](https://github.com/Kenmaaa05/ev-adoption-analysis/blob/main/outputs/ev_dashboard.pdf)
+
 ---
 
 ## Key Questions
