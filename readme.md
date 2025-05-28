@@ -50,6 +50,7 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 - Imputed missing electric range using mode by `(make, model)`  
 - Created new features: `range_category`, `price_band`, etc.
 - mapped urban and rural counties accordingly.
+- Around 246k rows cleaned.
 
 ---
 
