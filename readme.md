@@ -28,9 +28,9 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 ### Technology & Market Trends
 
 - **Electric range categories by model year**, evolution of EV tech  
-- **Top manufacturers and models** over time 
-- **CAFV eligibility by brand**, who's making compliant EVs?  
-- **Missing range data % by make**, data quality & model-level coverage
+- **Top Manufacturers and Models** over time 
+- **CAFV eligibility by Manufacturer**, who's making compliant EVs?  
+- **Missing range data % by Manufacturer**, data quality & model-level coverage
 
 ---
 
