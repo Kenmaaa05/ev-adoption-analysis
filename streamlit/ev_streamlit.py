@@ -44,7 +44,7 @@ if urban_filter:
     ev_filtered = ev_filtered[ev_filtered["if_urban"].isin(urban_filter)]
 
 #  PDF 
-st.markdown("### 📄 EV Dashboard (Embedded PDF Preview)")
+st.markdown("### 📄 EV Power BI Dashboard (Embedded PDF Preview)")
 
 pdf_url = "https://github.com/Kenmaaa05/ev-adoption-analysis/raw/main/outputs/ev_dashboard.pdf"
 google_docs_viewer = f"https://docs.google.com/gview?url={pdf_url}&embedded=true"
@@ -114,5 +114,5 @@ st.pyplot(fig)
 
 #  Footer 
 st.markdown("---")
-st.caption("Data Source: [Data.gov - Electric Vehicle Population](https://catalog.data.gov/dataset/electric-vehicle-population-data) • Created by Kenmaaa")
+st.caption("Data Source: [Data.gov - Electric Vehicle Population](https://catalog.data.gov/dataset/electric-vehicle-population-data) • Created by Soham")
 
