@@ -7,7 +7,7 @@ import base64
 st.set_page_config(page_title="EV Adoption in Washington", layout="wide")
 st.title("⚡ Electric Vehicle Adoption in Washington State, USA")
 
-# --- Load Data ---
+#  Load Data 
 @st.cache_data
 def load_data():
     df = pd.read_csv('../outputs/cleaned_ev.csv')
@@ -15,7 +15,7 @@ def load_data():
 
 ev = load_data()
 
-# --- Sidebar Filters ---
+#  Filters 
 st.sidebar.header("Filters")
 
 # EV Type
@@ -30,7 +30,7 @@ cafv_filter = st.sidebar.multiselect("CAFV Eligibility", cafv_options)
 urban_options = ev["if_urban"].unique()
 urban_filter = st.sidebar.multiselect("Urban/Rural", urban_options)
 
-# --- Apply Filters Only If Selected ---
+#  Apply Filters if Selected 
 ev_filtered = ev.copy()
 
 if ev_type_filter:
@@ -42,7 +42,7 @@ if cafv_filter:
 if urban_filter:
     ev_filtered = ev_filtered[ev_filtered["if_urban"].isin(urban_filter)]
 
-# --- PDF ---
+#  PDF 
 st.markdown("### 📄 EV Dashboard (PDF Preview)")
 with open("../outputs/ev_dashboard.pdf", "rb") as f:
     base64_pdf = base64.b64encode(f.read()).decode('utf-8')
@@ -50,12 +50,12 @@ with open("../outputs/ev_dashboard.pdf", "rb") as f:
 pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800px" type="application/pdf"></iframe>'
 st.markdown(pdf_display, unsafe_allow_html=True)
 
-# --- Dataset Overview ---
+#  Dataset Overview 
 st.header("📊 Dataset Overview")
 st.write(f"Total Vehicles: **{len(ev_filtered):,}**")
 st.dataframe(ev_filtered, use_container_width=True)
 
-# --- Missing Values Summary (Post-Cleaning) ---
+#  Missing Values Summary (Post-Cleaning) 
 st.subheader("🧹 Missing Value Summary (Post-Cleaning)")
 missing = ev_filtered.isna().sum().sort_values(ascending=False)
 fig, ax = plt.subplots(figsize=(10, 4))
@@ -65,7 +65,7 @@ plt.title("Remaining Missing Values After Cleaning")
 plt.ylabel("Count")
 st.pyplot(fig)
 
-# --- Electric Range Distribution ---
+#  Electric Range Distribution 
 st.subheader("📈 Electric Range Distribution")
 fig, ax = plt.subplots(figsize=(8, 4))
 ev_filtered['electric_range'].hist(bins=50, color="mediumseagreen", edgecolor="black", ax=ax)
@@ -74,7 +74,7 @@ plt.xlabel("Range (miles)")
 plt.ylabel("Frequency")
 st.pyplot(fig)
 
-# --- Range Category Bar Plot ---
+#  Range Category Bar Plot 
 st.subheader("🪫 Range Category Breakdown")
 range_order = ['Low', 'Medium', 'High', 'Very High', 'Unknown']
 fig, ax = plt.subplots(figsize=(6, 4))
@@ -83,7 +83,7 @@ plt.title("EVs by Electric Range Category")
 plt.ylabel("Number of Vehicles")
 st.pyplot(fig)
 
-# --- Urban vs Rural Count ---
+#  Urban vs Rural Count 
 st.subheader("🌐 Urban vs Rural EV Adoption")
 fig, ax = plt.subplots(figsize=(5, 3))
 ev_filtered['if_urban'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=90, ax=ax, colors=["lightcoral", "skyblue"])
@@ -91,7 +91,7 @@ ax.axis('equal')
 plt.title("Urban vs Rural Classification")
 st.pyplot(fig)
 
-# --- Manufacturer Trends ---
+#  Manufacturer Trends 
 st.subheader("🚗 Top Manufacturers")
 top_makes = ev_filtered['make'].value_counts().head(10)
 fig, ax = plt.subplots(figsize=(6, 4))
@@ -100,7 +100,7 @@ plt.xlabel("Number of Registered EVs")
 plt.title("Top 10 EV Manufacturers")
 st.pyplot(fig)
 
-# --- CAFV Eligibility ---
+#  CAFV Eligibility 
 st.subheader("✅ CAFV Eligibility")
 fig, ax = plt.subplots(figsize=(5, 3))
 ev_filtered['clean_alternative_fuel_vehicle_(cafv)_eligibility'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, ax=ax, colors=['lightgreen', 'orange', 'salmon'])
@@ -108,7 +108,7 @@ plt.title("CAFV Eligibility Breakdown")
 ax.axis('equal')
 st.pyplot(fig)
 
-# --- Footer ---
+#  Footer 
 st.markdown("---")
 st.caption("Data Source: [Data.gov - Electric Vehicle Population](https://catalog.data.gov/dataset/electric-vehicle-population-data) • Created by Kenmaaa")
 
