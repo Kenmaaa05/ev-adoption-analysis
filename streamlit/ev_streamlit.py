@@ -44,17 +44,16 @@ if urban_filter:
     ev_filtered = ev_filtered[ev_filtered["if_urban"].isin(urban_filter)]
 
 #  PDF 
-st.markdown("### 📄 EV Dashboard (PDF Preview)")
+st.markdown("### 📄 EV Dashboard (Embedded PDF Preview)")
 
-pdf_url = "https://raw.githubusercontent.com/Kenmaaa05/ev-adoption-analysis/main/outputs/ev_dashboard.pdf"
-response = requests.get(pdf_url)
+pdf_url = "https://github.com/Kenmaaa05/ev-adoption-analysis/raw/main/outputs/ev_dashboard.pdf"
+google_docs_viewer = f"https://docs.google.com/gview?url={pdf_url}&embedded=true"
 
-if response.status_code == 200:
-    base64_pdf = base64.b64encode(response.content).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
-else:
-    st.error("Failed to load PDF from GitHub.")
+st.markdown(
+    f'<iframe src="{google_docs_viewer}" width="100%" height="600px" style="border: none;"></iframe>',
+    unsafe_allow_html=True
+)
+
 #  Dataset Overview 
 st.header("📊 Dataset Overview")
 st.write(f"Total Vehicles: **{len(ev_filtered):,}**")
