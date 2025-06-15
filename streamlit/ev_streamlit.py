@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import base64
+import requests
 
 st.set_page_config(page_title="EV Adoption in Washington", layout="wide")
 st.title("⚡ Electric Vehicle Adoption in Washington State, USA")
@@ -10,7 +11,7 @@ st.title("⚡ Electric Vehicle Adoption in Washington State, USA")
 #  Load Data 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('../outputs/cleaned_ev.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/Kenmaaa05/ev-adoption-analysis/main/outputs/cleaned_ev.csv')
     return df
 
 ev = load_data()
@@ -44,12 +45,16 @@ if urban_filter:
 
 #  PDF 
 st.markdown("### 📄 EV Dashboard (PDF Preview)")
-with open("../outputs/ev_dashboard.pdf", "rb") as f:
-    base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
-pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800px" type="application/pdf"></iframe>'
-st.markdown(pdf_display, unsafe_allow_html=True)
+pdf_url = "https://raw.githubusercontent.com/Kenmaaa05/ev-adoption-analysis/main/outputs/ev_dashboard.pdf"
+response = requests.get(pdf_url)
 
+if response.status_code == 200:
+    base64_pdf = base64.b64encode(response.content).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
+else:
+    st.error("Failed to load PDF from GitHub.")
 #  Dataset Overview 
 st.header("📊 Dataset Overview")
 st.write(f"Total Vehicles: **{len(ev_filtered):,}**")
