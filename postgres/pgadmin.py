@@ -1,8 +1,37 @@
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, text
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
 import os
+
+Base = declarative_base()
+
+class EVData(Base):
+    __tablename__ = 'ev_data'
+
+    dol_vehicle_id = Column(Integer, primary_key=True)
+    county = Column(String)
+    city = Column(String)
+    state = Column(String)
+    model_year = Column(Integer)
+    make = Column(String)
+    model = Column(String)
+    electric_vehicle_type = Column(String)
+    clean_alternative_fuel_vehicle_cafv_eligibility = Column(String)
+    electric_range = Column(Float)
+    legislative_district = Column(Float)
+    range_category = Column(String)
+    longitude = Column(Float)
+    latitude = Column(Float)
+    if_urban = Column(String)
+
+class EVUtilities(Base):
+    __tablename__ = 'ev_utilities'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    dol_vehicle_id = Column(Integer, ForeignKey('ev_data.dol_vehicle_id', ondelete='CASCADE'))
+    electric_utility = Column(String)
 
 load_dotenv()
 
@@ -14,13 +43,29 @@ database = os.getenv("PG_DATABASE")
 
 db_url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
 engine = create_engine(db_url)
-csv_path = r"outputs\cleaned_ev.csv"  
+
+ev_csv = r"outputs\\cleaned_ev.csv"
+utility_csv = r"outputs\\utility_providers.csv"
 
 try:
-    ev_df = pd.read_csv(csv_path)
-    ev_df.to_sql("ev_data", engine, if_exists="replace", index=False)
-    print("Data loaded successfully!")
+    ev_df = pd.read_csv(ev_csv)
+    utility_df = pd.read_csv(utility_csv)
+
+    ev_df.columns = [c.lower().replace("(", "").replace(")", "").replace(" ", "_") for c in ev_df.columns]
+    utility_df.columns = [c.lower().replace("(", "").replace(")", "").replace(" ", "_") for c in utility_df.columns]
+
+    with engine.connect() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS ev_utilities CASCADE;"))
+        conn.execute(text("DROP TABLE IF EXISTS ev_data CASCADE;"))
+
+    Base.metadata.create_all(engine)
+
+    ev_df.to_sql("ev_data", engine, if_exists="append", index=False)
+    utility_df.to_sql("ev_utilities", engine, if_exists="append", index=False)
+
+    print("Tables created, data loaded, and constraints applied successfully!")
+
 except SQLAlchemyError as e:
-    print('Error while uploading df to postgresql: ', str(e))
+    print("SQLAlchemy error:", str(e))
 except Exception as e:
-    print('Error: ',str(e))
+    print("General error:", str(e))

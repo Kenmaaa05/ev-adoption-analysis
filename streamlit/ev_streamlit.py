@@ -55,9 +55,10 @@ st.markdown(
 )
 
 #  Dataset Overview 
-st.header("📊 Dataset Overview")
-st.write(f"Total Vehicles: **{len(ev_filtered):,}**")
-st.dataframe(ev_filtered, use_container_width=True)
+st.subheader('📊 Dataset Overview')
+with st.expander("View Cleaned Data"):
+    st.write(f"Total Vehicles: **{len(ev_filtered):,}**")
+    st.dataframe(ev_filtered, use_container_width=True)
 
 #  Missing Values Summary (Post-Cleaning) 
 st.subheader("🧹 Missing Value Summary (Post-Cleaning)")
