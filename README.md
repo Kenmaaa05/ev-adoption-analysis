@@ -90,4 +90,5 @@ This was an end-to-end project where I explored EV adoption and accessibility, i
 - apply Fast API to practice REST API in general.
 
 The reason I am planning on using Airflow is, I noticed the Dataset is updated after almost every month. So to keep my analysis up-to-date I plan on using Apache Airflow. It will also help me get hands-on experience on the tool.
+
 ---
