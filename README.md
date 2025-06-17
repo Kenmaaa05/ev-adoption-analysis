@@ -82,11 +82,12 @@ This analysis uses public data from:
 
 ---
 
-This was an end-to-end project where I explored EV adoption and accessibility, infrastructure gaps, and manufacturer trends through data wrangling and visual storytelling.
+This was an end-to-end project where I explored EV adoption and accessibility, infrastructure gaps, and manufacturer trends through data wrangling and visual storytelling. I wanted to dirty my hands in data analysis and this was first of the many projects I plan on doing.
 
-**Goals:**
-- Tell a complete story from raw data to insights
-- Practice geospatial and policy-aware data analysis
-- Deliver a dashboard suitable for business or public policy use
+**Future Scope:**
 
+- use Airflow to Automate the entire pipeline.
+- apply Fast API to practice REST API in general.
+
+The reason I am planning on using Airflow is, I noticed the Dataset is updated after almost every month. So to keep my analysis up-to-date I plan on using Apache Airflow. It will also help me get hands-on experience on the tool.
 ---
