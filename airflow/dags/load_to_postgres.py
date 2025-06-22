@@ -32,24 +32,20 @@ class EVUtilities(Base):
     electric_utility = Column(String)
 
 def load_to_postgres():
-    # Load environment variables
     load_dotenv(dotenv_path="/opt/airflow/.env")
 
-    # Fetch variables
     host = os.getenv("PG_HOST")
     port = os.getenv("PG_PORT")
     user = os.getenv("PG_USER")
     password = os.getenv("PG_PASSWORD")
     database = os.getenv("PG_DATABASE")
 
-    # Print for debug
-    print("PG_HOST:", host)
-    print("PG_PORT:", port)
-    print("PG_USER:", user)
-    print("PG_PASSWORD:", password)
-    print("PG_DATABASE:", database)
+    # print("PG_HOST:", host)
+    # print("PG_PORT:", port)
+    # print("PG_USER:", user)
+    # print("PG_PASSWORD:", password)
+    # print("PG_DATABASE:", database)
 
-    # Fail early if any env variable is missing
     if not all([host, port, user, password, database]):
         raise ValueError("One or more PostgreSQL environment variables are missing or not loaded.")
 

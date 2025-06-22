@@ -13,8 +13,7 @@ def clean_ev_data(
 
     ev = pd.read_csv(raw_path)
 
-    # 1. Column Formatting & String Standardization
-
+    # 1. Column & String Formatting 
     ev.columns = ev.columns.str.strip().str.lower().str.replace(' ', '_', regex=False)
 
     ev['model'] = ev['model'].str.upper().str.strip()
@@ -25,7 +24,6 @@ def clean_ev_data(
     ev['clean_alternative_fuel_vehicle_(cafv)_eligibility'] = ev['clean_alternative_fuel_vehicle_(cafv)_eligibility'].str.strip()
 
     # 2. Replacing Fake Zeros with Real NaNs and Imputing Missing Electric Ranges
-
     ev['electric_range'] = ev['electric_range'].replace(0, pd.NA)
     missing_before = ev['electric_range'].isna().sum()
 
@@ -42,7 +40,6 @@ def clean_ev_data(
     ev['electric_range'] = ev.apply(impute_range, axis=1)
 
     # 3. Creating Range Categories
-
     def categorize_range(r):
         if pd.isna(r): return 'Unknown'
         elif r < 100: return 'Low'
@@ -53,20 +50,17 @@ def clean_ev_data(
     ev['range_category'] = ev['electric_range'].apply(categorize_range)
 
     # 4. Extracting Coordinates from vehicle_location
-
     ev[['longitude', 'latitude']] = ev['vehicle_location'].str.extract(r'POINT \((-?\d+\.\d+) (-?\d+\.\d+)\)')
     ev['latitude'] = pd.to_numeric(ev['latitude'], errors='coerce')
     ev['longitude'] = pd.to_numeric(ev['longitude'], errors='coerce')
     ev.drop(columns=['vehicle_location'], inplace=True)
 
     # 5. Drop Garbage Rows + Unneeded Columns
-
     ev = ev[ev['state'] == 'WA']
     ev = ev.dropna(subset=['county', 'city', 'postal_code', 'latitude', 'longitude', 'electric_utility'])
     ev.drop(columns=['vin_(1-10)', '2020_census_tract', 'postal_code', 'base_msrp'], inplace=True)
 
-    # 6. Exploding Multi-Utility Entries
-
+    # 6. Exploding Multi Utility Entries
     utility_df = ev[['dol_vehicle_id', 'electric_utility']].copy()
     utility_df['electric_utility'] = utility_df['electric_utility'].str.split(r'\|\|?')
     utility_df['electric_utility'] = utility_df['electric_utility'].apply(
@@ -79,8 +73,7 @@ def clean_ev_data(
     utility_df.drop_duplicates(inplace=True)
     ev.drop(columns=['electric_utility'], inplace=True)
 
-    # 7. CAFV Eligibility Simplified
-
+    # 7. CAFV Eligibility labeled
     cafv_map = {
         'Clean Alternative Fuel Vehicle Eligible': 'Eligible',
         'Eligibility unknown as battery range has not been researched': 'Unknown',
@@ -89,7 +82,6 @@ def clean_ev_data(
     ev['clean_alternative_fuel_vehicle_(cafv)_eligibility'] = ev['clean_alternative_fuel_vehicle_(cafv)_eligibility'].map(cafv_map)
 
     # 8. Classifying Counties as Urban or Rural
-
     washington_counties = {
         "Adams": "rural",
         "Asotin": "rural",
@@ -135,5 +127,6 @@ def clean_ev_data(
     ev['if_urban'] = ev['county'].map(washington_counties)
     ev["if_urban"] = ev["if_urban"].fillna("Urban")
 
+    # saving CSVs
     ev.to_csv(cleaned_path, index=False)
     utility_df.to_csv(utility_path, index=False)

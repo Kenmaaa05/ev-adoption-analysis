@@ -16,4 +16,4 @@ def download_csv(filename="Electric_Vehicle_Population_Data.csv"):
             f.write(response.content)
         print(f"Downloaded CSV to {path}")
     else:
-        raise Exception(f"Failed to download file: {response.status_code}")
+        raise Exception(f"Failed to download: {response.status_code}")

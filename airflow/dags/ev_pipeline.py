@@ -4,8 +4,7 @@ from datetime import datetime
 import sys
 import os
 
-# Add the scripts folder to the path (optional if your scripts are in the same folder)
-sys.path.append(os.path.join(os.path.dirname(__file__)))
+sys.path.append(os.path.join(os.path.dirname(__file__))) # added cuz just in case
 
 from download_data import download_csv
 from cleaning import clean_ev_data
@@ -21,7 +20,7 @@ with DAG(
     dag_id='ev_data_pipeline',
     default_args=default_args,
     description='ETL pipeline for WA EV adoption data',
-    schedule=None,  # Use `schedule` in Airflow 3.x instead of `schedule_interval`
+    schedule=None,  
     catchup=False,
     tags=['ev', 'etl']
 ) as dag:
