@@ -23,6 +23,7 @@ airflow/*.txt
 airflow/.env
 airflow/airflow/.env
 postgres/.env
+airflow/config/airflow.cfg
 
 **/__docker_build__/
 **/docker-compose.override.yml
