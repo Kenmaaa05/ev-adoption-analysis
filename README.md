@@ -39,6 +39,8 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 - **Python** (Pandas, NumPy, Matplotlib) for cleaning, transformation, imputation  
 - **PostgreSQL** for structured storage and querying  
 - **Power BI** for interactive visualizations  
+- **Apache Airflow** for scheduling and orchestrating the data pipeline  
+- **Docker** to containerize Airflow and PostgreSQL services  
 
 ---
 
@@ -55,23 +57,44 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 ---
 
 ## Repository Structure
-
 ```
 ev-adoption-analysis/
 │
-├── data/ 
-│ └──Electric_Vehicle_Population_Data.csv
-├── notebooks/ 
-│ └── ev_analysis.ipynb
-├── outputs/ 
-│ ├── cleaned_ev.csv
-│ ├── ev_dashboard.pbix 
-│ └── ev_dashboard.pdf
-├── postgres/ 
-│ └── pgadmin.py
-└── README.md
+├── airflow/
+│   ├── dags/
+│   │   ├── cleaning.py
+│   │   ├── download_data.py
+│   │   ├── ev_pipeline.py
+│   │   └── load_to_postgres.py
+│   ├── data/
+│   │   └── Electric_Vehicle_Population_Data.csv
+│   ├── docker-compose.yaml
+│   ├── config/
+│   │   └── airflow.cfg
+│   └── plugins/
+│
+├── data/
+│   └── Electric_Vehicle_Population_Data.csv
+│
+├── notebooks/
+│   └── ev_analysis.ipynb
+│
+├── outputs/
+│   ├── cleaned_ev.csv
+│   ├── utility_providers.csv
+│   ├── ev_dashboard.pbix
+│   └── ev_dashboard.pdf
+│
+├── postgres/
+│   └── pgadmin.py
+│
+├── streamlit/
+│   └── ev_streamlit.py
+│
+├── .gitignore
+├── README.md
+└── requirements.txt
 ```
-
 
 ---
 
@@ -82,13 +105,13 @@ This analysis uses public data from:
 
 ---
 
-This was an end-to-end project where I explored EV adoption and accessibility, infrastructure gaps, and manufacturer trends through data wrangling and visual storytelling. I wanted to dirty my hands in data analysis and this was first of the many projects I plan on doing.
+This was an end-to-end project where I explored EV adoption and accessibility, infrastructure gaps, and manufacturer trends through data wrangling and visual storytelling. 
+
+The data would be updated on the data.gov after almost every month. This led to me, automating the entire scheduling and orchestration of the pipeline using `Apache Airflow` and using `Docker` for containerizing the services.
 
 **Future Scope:**
 
-- use Airflow to Automate the entire pipeline.
-- apply Fast API to practice REST API in general.
-
-The reason I am planning on using Airflow is, I noticed the Dataset is updated after almost every month. So to keep my analysis up-to-date I plan on using Apache Airflow. It will also help me get hands-on experience on the tool.
+- Expand API functionality using **FastAPI** to expose specific data endpoints
 
 ---
+
