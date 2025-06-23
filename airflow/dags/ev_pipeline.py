@@ -12,7 +12,7 @@ from load_to_postgres import load_to_postgres
 
 default_args = {
     'owner': 'kenmaaa',
-    'start_date': datetime(2024, 1, 1),
+    'start_date': datetime(2025, 6, 23),
     'retries': 0
 }
 
@@ -20,7 +20,7 @@ with DAG(
     dag_id='ev_data_pipeline',
     default_args=default_args,
     description='ETL pipeline for WA EV adoption data',
-    schedule=None,  
+    schedule= '0 0 23 * *',  
     catchup=False,
     tags=['ev', 'etl']
 ) as dag:
