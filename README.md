@@ -16,7 +16,17 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 
 ---
 
-## Highlights of the Power BI Dashboard and EV analysis
+## 🔍 Key Insights from the Analysis
+
+- **CAFV eligibility** peaked at ~88% in 2020 but dropped to just 11.7% in 2021, unknown entries surged to 76%.  
+- **Rural counties** hold only ~10% of EVs despite some (like Columbia) having higher BEV adoption than urban areas.  
+- **Tesla** leads in electric range but lags in policy compliance, possibly relying on brand strength over incentives.  
+- **PHEVs** report 100% range data while **BEVs** don’t thus hinting at uneven reporting standards.  
+- **Utility providers** show stark contrasts in policy alignment, potentially bottlenecking EV adoption.  
+
+---
+
+## 📈 Highlights of the Power BI Dashboard and EV analysis
 
 ### EV Accessibility & Infrastructure
 
@@ -34,7 +44,7 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **Python** (Pandas, NumPy, Matplotlib) for cleaning, transformation, imputation  
 - **PostgreSQL** for structured storage and querying  
@@ -44,7 +54,7 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 
 ---
 
-## Data Preprocessing
+## 🧹 Data Preprocessing
 
 - Normalized column names and formats  
 - Parsed and split multi-utility rows  
@@ -56,7 +66,15 @@ Electric vehicles (EVs) are transforming the transportation landscape, but acces
 
 ---
 
-## Repository Structure
+## ⏰ Pipeline Flowchart
+
+> This end-to-end ETL pipeline is orchestrated to **automatically run every month** using Apache Airflow.
+
+![Pipeline Flowchart](outputs/flowchart_ev.png)  
+
+---
+
+## 📁 Repository Structure
 ```
 ev-adoption-analysis/
 │
@@ -98,7 +116,7 @@ ev-adoption-analysis/
 
 ---
 
-## Data Source
+## 📊 Data Source
 
 This analysis uses public data from:  
 [data.wa.gov – Electric Vehicle Population Dataset](https://catalog.data.gov/dataset/electric-vehicle-population-data)
@@ -107,11 +125,12 @@ This analysis uses public data from:
 
 This was an end-to-end project where I explored EV adoption and accessibility, infrastructure gaps, and manufacturer trends through data wrangling and visual storytelling. 
 
-The data would be updated on the data.gov after almost every month. This led to me, automating the entire scheduling and orchestration of the pipeline using `Apache Airflow` and using `Docker` for containerizing the services.
+> The dataset is updated nearly every month so i automated the entire scheduling and orchestration of the pipeline using `Apache Airflow` with `Docker` containers to manage the services.
 
 **Future Scope:**
 
-- Expand API functionality using **FastAPI** to expose specific data endpoints
+- Expand API functionality using **FastAPI** to expose specific data endpoints.  
+- Add anomaly detection to highlight inconsistencies in new updates.
 
 ---
 
